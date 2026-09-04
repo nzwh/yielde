@@ -16,6 +16,7 @@ import { useRegisterForm } from "./useRegisterForm";
 import { Input } from "@/components/global/Input";
 import { Button } from "@/components/global/Button";
 import { Badge } from "@/components/global/Badge";
+import { Checkbox } from "../global/Checkbox";
 
 export default function RegisterCard() {
   const { values, submitting, formError, setField, handleSubmit } =
@@ -123,15 +124,8 @@ export default function RegisterCard() {
         />
 
         {/* Terms and Conditions */}
-        <div className="text-xxs flex w-full items-center justify-center gap-2 text-[#737373]">
-          <input
-            type="checkbox"
-            id="terms"
-            name="terms"
-            required
-            className="peer size-3 cursor-pointer appearance-none rounded-sm border border-slate-400 bg-white transition-all duration-200 ease-in-out checked:border-[#798BFF] checked:bg-[#798BFF] hover:border-[#798BFF] hover:bg-slate-50 hover:checked:border-[#3B4ACF] hover:checked:bg-[#3B4ACF]"
-          />
-
+        <div className="text-xxs flex items-center justify-center gap-2 text-[#737373]">
+          <Checkbox />
           <label htmlFor="terms" className="cursor-pointer leading-normal">
             I agree to the
             <Badge href="/terms" aria-label="Read the Terms of Service">
