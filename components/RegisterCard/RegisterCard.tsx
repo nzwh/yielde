@@ -17,11 +17,15 @@ import { Input } from "@/components/global/Input";
 import { Button } from "@/components/global/Button";
 import { Badge } from "@/components/global/Badge";
 import { Checkbox } from "../global/Checkbox";
+import { PasswordStrengthMeter } from "./PasswordStrengthMeter";
 
 export default function RegisterCard() {
   const { values, submitting, formError, setField, handleSubmit } =
     useRegisterForm();
   const [isButtonHovered, setIsButtonHovered] = useState(false);
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+
+  const showMeter = isPasswordFocused && values.password.length > 0;
 
   return (
     <div className="flex w-88 flex-col items-center rounded-xl bg-[#E8E8E8]">
@@ -81,17 +85,35 @@ export default function RegisterCard() {
           validate={FIELD_VALIDATOR.email}
         />
 
-        <Input
-          id="password"
-          name="password"
-          type="password"
-          label="Password"
-          placeholder="********"
-          icon={MdOutlineVpnKey}
-          value={values.password}
-          onChange={setField("password")}
-          validate={FIELD_VALIDATOR.password}
-        />
+        <div className={cn("flex w-full flex-col", showMeter && "gap-2")}>
+          <Input
+            id="password"
+            name="password"
+            type="password"
+            label="Password"
+            placeholder="********"
+            icon={MdOutlineVpnKey}
+            value={values.password}
+            onChange={setField("password")}
+            validate={FIELD_VALIDATOR.password}
+            onFocusChange={setIsPasswordFocused}
+          />
+          <div
+            className={cn(
+              "grid w-full transition-[grid-template-rows,margin] duration-200 ease-out",
+              isPasswordFocused && values.password.length > 0
+                ? "grid-rows-[1fr]"
+                : "grid-rows-[0fr]",
+            )}
+          >
+            <div className="min-h-0 overflow-hidden">
+              <PasswordStrengthMeter
+                value={values.password}
+                active={isPasswordFocused && values.password.length > 0}
+              />
+            </div>
+          </div>
+        </div>
 
         <Input
           id="confirm"
