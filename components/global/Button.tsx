@@ -1,11 +1,20 @@
 import { cn } from "@/lib/utils";
-import { Indicator } from "../Indicator";
+import { Indicator } from "./Indicator";
 
 interface ButtonProps {
   submitting: boolean;
   setIsHovered: (hovered: boolean) => void;
   isHovered: boolean;
 }
+
+// todo: convert to templates
+const ARROW_FRAMES = [
+  [0, 1, 4, 5, 6, 7],
+  [1, 2, 5, 7, 8],
+  [2, 8],
+  [3],
+  [0, 3, 4, 6],
+];
 
 export function Button({ submitting, setIsHovered, isHovered }: ButtonProps) {
   return (
@@ -24,17 +33,11 @@ export function Button({ submitting, setIsHovered, isHovered }: ButtonProps) {
     >
       <Indicator
         gridSize={3}
-        // arrow animation frames
-        frames={[
-          [0, 1, 4, 5, 6, 7],
-          [1, 2, 5, 7, 8],
-          [2, 8],
-          [3],
-          [0, 3, 4, 6],
-        ]}
+        frames={ARROW_FRAMES}
         active={isHovered || submitting}
         primary="#fff"
         secondary="#fff1"
+        aria-busy={submitting}
       />
       {submitting
         ? "Sit tight! Creating your account..."
