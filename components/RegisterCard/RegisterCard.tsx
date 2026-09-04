@@ -14,10 +14,13 @@ import { FIELD_VALIDATOR } from "./validator";
 import { useRegisterForm } from "./useRegisterForm";
 
 import { Input } from "@/components/global/Input";
+import { Button } from "../global/Button";
+import { useState } from "react";
 
 export default function RegisterCard() {
   const { values, setField, submitting, formError, handleSubmit } =
     useRegisterForm();
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div className="flex w-88 flex-col items-center rounded-xl bg-[#E8E8E8]">
@@ -113,17 +116,11 @@ export default function RegisterCard() {
           </p>
         )}
 
-        <button
-          type="submit"
-          disabled={submitting}
-          className={cn(
-            "bg-[#798BFF] text-white hover:bg-[#3B4ACF]",
-            "flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200 ease-out",
-            "disabled:cursor-not-allowed disabled:bg-[#D9D9D9] disabled:text-[#737373]",
-          )}
-        >
-          {submitting ? "Registering..." : "Register"}
-        </button>
+        <Button
+          submitting={submitting}
+          setIsHovered={setIsHovered}
+          isHovered={isHovered}
+        />
 
         {/* Terms and Conditions */}
         <div className="text-xxs flex w-full items-center justify-center gap-2 text-[#737373]">
