@@ -1,12 +1,22 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import React, { ChangeEvent, InputHTMLAttributes, useState } from "react";
+import React, {
+  ChangeEvent,
+  InputHTMLAttributes,
+  useEffect,
+  useState,
+} from "react";
 
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { MdCheckCircleOutline, MdErrorOutline } from "react-icons/md";
 
-import { ValidationResult, Validator } from "../RegisterCard/validator";
+import {
+  FIELD_VALIDATOR,
+  ValidationResult,
+  Validator,
+} from "../RegisterCard/validator";
+import { RegisterValues } from "../RegisterCard/useRegisterForm";
 
 function handleToggle(con: boolean) {
   return con ? "scale-100 opacity-100" : "scale-90 opacity-0";
@@ -30,7 +40,7 @@ interface InputProps extends Omit<
   onFocusChange?: (focused: boolean) => void;
   validate?: Validator;
   // for cross-field validation (confirm password)
-  allValues?: Record<string, string>;
+  allValues?: Partial<RegisterValues>;
 }
 
 export function Input({
@@ -56,6 +66,13 @@ export function Input({
 
   const isPassword = type === "password";
   const resolvedType = isPassword ? (showPassword ? "text" : "password") : type;
+
+  useEffect(() => {
+    if (touched && validate === FIELD_VALIDATOR.confirm) {
+      updateResult(value);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allValues?.password]);
 
   function updateResult(next: string) {
     if (!validate) return;
