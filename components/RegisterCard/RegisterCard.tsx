@@ -51,6 +51,7 @@ export default function RegisterCard() {
         autoComplete="off"
         autoCorrect="off"
         spellCheck="false"
+        noValidate
       >
         <h1
           className={cn(
