@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { useState } from "react";
 
 import { cn } from "@/lib/utils";
 import { dmMono } from "@/app/fonts";
@@ -14,13 +14,13 @@ import { FIELD_VALIDATOR } from "./validator";
 import { useRegisterForm } from "./useRegisterForm";
 
 import { Input } from "@/components/global/Input";
-import { Button } from "../global/Button";
-import { useState } from "react";
+import { Button } from "@/components/global/Button";
+import { Badge } from "@/components/global/Badge";
 
 export default function RegisterCard() {
-  const { values, setField, submitting, formError, handleSubmit } =
+  const { values, submitting, formError, setField, handleSubmit } =
     useRegisterForm();
-  const [isHovered, setIsHovered] = useState(false);
+  const [isButtonHovered, setIsButtonHovered] = useState(false);
 
   return (
     <div className="flex w-88 flex-col items-center rounded-xl bg-[#E8E8E8]">
@@ -118,8 +118,8 @@ export default function RegisterCard() {
 
         <Button
           submitting={submitting}
-          setIsHovered={setIsHovered}
-          isHovered={isHovered}
+          setIsHovered={setIsButtonHovered}
+          isHovered={isButtonHovered}
         />
 
         {/* Terms and Conditions */}
@@ -133,43 +133,25 @@ export default function RegisterCard() {
           />
 
           <label htmlFor="terms" className="cursor-pointer leading-normal">
-            I agree to the{" "}
-            <Link
-              href="/terms"
-              aria-label="Read the Terms of Service"
-              className="hover:underline"
-            >
-              Terms of Service{" "}
-            </Link>
-            and{" "}
-            <Link
-              href="/privacy"
-              aria-label="Read the Privacy Policy"
-              className="hover:underline"
-            >
+            I agree to the
+            <Badge href="/terms" aria-label="Read the Terms of Service">
+              Terms of Service
+            </Badge>
+            and
+            <Badge href="/privacy" aria-label="Read the Privacy Policy">
               Privacy Policy
-            </Link>
-            .
+            </Badge>
           </label>
         </div>
       </form>
 
       {/* Bottom lip */}
-      <div
-        className={cn(
-          "text-[#737373]",
-          "flex w-full items-center justify-center gap-1 px-4 py-3 text-xs",
-        )}
-      >
-        <p>Already have an account? </p>
-        <Link
-          href="/login"
-          aria-label="Login to your account"
-          className="hover:underline"
-        >
+      <p className="px-4 py-3 text-xs text-[#737373]">
+        Already have an account?
+        <Badge href="/login" aria-label="Login to your account">
           Log-in here
-        </Link>
-      </div>
+        </Badge>
+      </p>
     </div>
   );
 }
