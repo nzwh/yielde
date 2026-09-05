@@ -1,5 +1,6 @@
 import { useRef, useState, type SubmitEvent } from "react";
 import { FIELD_VALIDATOR } from "./validator";
+import { useRouter } from "next/navigation";
 
 export type RegisterValues = {
   username: string;
@@ -9,6 +10,7 @@ export type RegisterValues = {
 };
 
 export function useRegisterForm() {
+  const router = useRouter();
   const [values, setValues] = useState<RegisterValues>({
     username: "",
     email: "",
@@ -55,6 +57,8 @@ export function useRegisterForm() {
         setFormError(data?.message ?? "Registration failed. Please try again.");
         return;
       }
+
+      router.push("/login?registered=true");
     } catch (err) {
       if ((err as Error).name !== "AbortError")
         setFormError("A network error occurred. Please check your connection.");
