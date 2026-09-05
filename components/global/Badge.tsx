@@ -20,7 +20,8 @@ export function Badge({
   ...props
 }: BadgeProps) {
   const classes = cn(
-    "rounded-sm bg-black/10 font-semibold transition-colors duration-200",
+    "bg-black/10 focus-visible:ring-[#8290EF]",
+    "rounded-sm font-semibold transition-colors duration-200 focus-visible:ring-1 focus-visible:outline-none",
     href && "hover:bg-black/15 hover:underline cursor-pointer",
     padding,
     className,

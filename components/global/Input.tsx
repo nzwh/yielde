@@ -139,8 +139,8 @@ export function Input({
           aria-invalid={showStatus ? !result.valid : undefined}
           aria-describedby={showError ? `${id}-error` : undefined}
           className={cn(
-            "border-[#EDEDED] bg-white placeholder:text-[#B7B7B7] focus:border-blue-300 focus:ring-blue-300",
-            "w-full rounded-lg border py-2 text-sm transition-colors focus:outline-none",
+            "border-[#EDEDED] bg-white placeholder:text-[#B7B7B7] focus:ring-[#8290EF]",
+            "w-full rounded-lg border py-2 text-sm transition focus:ring-1 focus:outline-none",
             isPassword ? "pr-16" : "pr-9",
             Icon ? "pl-9" : "pl-3",
           )}
@@ -171,7 +171,10 @@ export function Input({
               onMouseDown={(e) => e.preventDefault()}
               onClick={() => setShowPassword((prev) => !prev)}
               aria-label={showPassword ? "Hide password" : "Show password"}
-              className="cursor-pointer text-[#737373] hover:text-[#454545]"
+              className={cn(
+                "text-[#737373] hover:text-[#454545] focus-visible:ring-[#8290EF]",
+                "cursor-pointer rounded-sm focus-visible:ring-1 focus-visible:ring-offset-3 focus-visible:outline-none",
+              )}
             >
               <div className="relative size-4">
                 <FiEye
