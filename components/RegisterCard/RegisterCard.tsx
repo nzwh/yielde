@@ -22,9 +22,11 @@ import { PasswordStrengthMeter } from "./PasswordStrengthMeter";
 export default function RegisterCard() {
   const { values, submitting, formError, setField, handleSubmit } =
     useRegisterForm();
+
   const [isButtonHovered, setIsButtonHovered] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
 
+  const [errorShakeId, setErrorShakeId] = useState(0);
   const showMeter = isPasswordFocused && values.password.length > 0;
 
   return (
@@ -40,14 +42,17 @@ export default function RegisterCard() {
         <h2>Registration</h2>
       </div>
 
-      {/* Register Card */}
+      {/* Form */}
       <form
         className={cn(
           "border-[#D9D9D9] bg-[#F7F7F7]",
           "flex w-full flex-col items-center gap-4 rounded-xl border p-4",
           "shadow-[inset_0_0_0_2px_#fff]",
         )}
-        onSubmit={handleSubmit}
+        onSubmit={async (e) => {
+          setErrorShakeId((prev) => prev + 1);
+          await handleSubmit(e);
+        }}
         autoComplete="off"
         autoCorrect="off"
         spellCheck="false"
@@ -130,23 +135,26 @@ export default function RegisterCard() {
           autoComplete="new-password"
         />
 
+        {/* Error */}
         {formError && (
           <p
+            key={errorShakeId}
             role="alert"
             aria-live="polite"
-            className="text-center text-xs text-[#FF756A]"
+            className="animate-shake text-center text-xs font-medium text-[#FF756A] will-change-transform"
           >
             {formError}
           </p>
         )}
 
+        {/* Submit */}
         <Button
           submitting={submitting}
           setIsHovered={setIsButtonHovered}
           isHovered={isButtonHovered}
         />
 
-        {/* Terms and Conditions */}
+        {/* T&C */}
         <div className="text-xxs flex items-center justify-center gap-2 text-[#737373]">
           <Checkbox />
           <label htmlFor="terms" className="cursor-pointer leading-normal">
