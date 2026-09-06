@@ -8,15 +8,14 @@ export async function POST(req: Request) {
     return Response.json({ message: "Invalid request body." }, { status: 400 });
 
   const { username, email, password } = body;
-  const checks = {
-    username: FIELD_VALIDATOR.username(username ?? ""),
-    email: FIELD_VALIDATOR.email(email ?? ""),
-    password: FIELD_VALIDATOR.password(password ?? ""),
-  };
+  const fields = { username, email, password };
 
-  const firstError = Object.values(checks).find((r) => !r.valid);
-  if (firstError)
-    return Response.json({ message: firstError.message }, { status: 400 });
+  for (const [key, validate] of Object.entries(FIELD_VALIDATOR)) {
+    if (key === "confirm") continue;
+    const result = validate(fields[key as keyof typeof fields] ?? "");
+    if (!result.valid)
+      return Response.json({ message: result.message }, { status: 400 });
+  }
   const hash = await bcrypt.hash(password, 10);
 
   try {
