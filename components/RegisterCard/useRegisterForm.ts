@@ -41,7 +41,9 @@ export function useRegisterForm() {
     });
 
     if (results.some((r) => !r.valid)) {
-      setFormError("Please fix the highlighted fields.");
+      setFormError(
+        "Please check that all required fields are filled out correctly.",
+      );
       return;
     }
     if (!terms) {

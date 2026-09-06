@@ -1,7 +1,9 @@
+import { RegisterValues } from "./useRegisterForm";
+
 export type ValidationResult = { valid: boolean; message?: string };
 export type Validator = (
   value: string,
-  allValues?: Record<string, string>,
+  allValues?: Partial<RegisterValues>,
 ) => ValidationResult;
 
 const PASSWORD_ALLOWED_SYMBOLS = "!@#$%^&*()-_=+[]{};:,.?";
