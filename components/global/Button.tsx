@@ -5,6 +5,8 @@ interface ButtonProps {
   submitting: boolean;
   setIsHovered: (hovered: boolean) => void;
   isHovered: boolean;
+  label?: string;
+  submittingLabel?: string;
 }
 
 // todo: convert to templates
@@ -16,11 +18,18 @@ const ARROW_FRAMES = [
   [0, 3, 4, 6],
 ];
 
-export function Button({ submitting, setIsHovered, isHovered }: ButtonProps) {
+export function Button({
+  submitting,
+  setIsHovered,
+  isHovered,
+  label = "Create your account",
+  submittingLabel = "Sit tight! Creating your account...",
+}: ButtonProps) {
   return (
     <button
       type="submit"
       disabled={submitting}
+      aria-busy={submitting}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className={cn(
@@ -37,11 +46,8 @@ export function Button({ submitting, setIsHovered, isHovered }: ButtonProps) {
         active={isHovered || submitting}
         primary="#fff"
         secondary="#fff1"
-        aria-busy={submitting}
       />
-      {submitting
-        ? "Sit tight! Creating your account..."
-        : "Create your account"}
+      {submitting ? submittingLabel : label}
     </button>
   );
 }
