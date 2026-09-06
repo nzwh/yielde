@@ -14,11 +14,20 @@ export async function POST(req: Request) {
 
   const { email, password } = body;
 
-  const { rows } = await pool.query(
-    `select id, username, password_hash from users where lower(email) = lower($1)`,
-    [email],
-  );
-  const user = rows[0];
+  let user;
+  try {
+    const { rows } = await pool.query(
+      `select id, username, password_hash from users where lower(email) = lower($1)`,
+      [email],
+    );
+    user = rows[0];
+  } catch (err) {
+    console.error(err);
+    return Response.json(
+      { message: "Login failed. Please try again." },
+      { status: 500 },
+    );
+  }
 
   if (!user || !(await bcrypt.compare(password, user.password_hash))) {
     return Response.json(
