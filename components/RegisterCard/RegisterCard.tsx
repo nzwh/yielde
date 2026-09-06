@@ -20,8 +20,17 @@ import { Checkbox } from "../global/Checkbox";
 import { PasswordStrengthMeter } from "./PasswordStrengthMeter";
 
 export default function RegisterCard() {
-  const { values, submitting, formError, setField, handleSubmit } =
-    useRegisterForm();
+  const {
+    values,
+    confirm,
+    terms,
+    submitting,
+    formError,
+    setField,
+    setConfirm,
+    setTerms,
+    handleSubmit,
+  } = useRegisterForm();
 
   const [isButtonHovered, setIsButtonHovered] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
@@ -128,8 +137,8 @@ export default function RegisterCard() {
           label="Confirm Password"
           placeholder="********"
           icon={MdOutlineVpnKey}
-          value={values.confirm}
-          onChange={setField("confirm")}
+          value={confirm}
+          onChange={setConfirm}
           validate={FIELD_VALIDATOR.confirm}
           allValues={values}
           autoComplete="new-password"
@@ -156,7 +165,12 @@ export default function RegisterCard() {
 
         {/* T&C */}
         <div className="text-xxs flex items-center justify-center gap-2 text-[#737373]">
-          <Checkbox />
+          <Checkbox
+            id="terms"
+            name="terms"
+            checked={terms}
+            onChange={setTerms}
+          />
           <label htmlFor="terms" className="cursor-pointer leading-normal">
             I agree to the
             <Badge href="/terms" aria-label="Read the Terms of Service">

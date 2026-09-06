@@ -6,24 +6,26 @@ export type RegisterValues = {
   username: string;
   email: string;
   password: string;
-  confirm: string;
 };
 
 export function useRegisterForm() {
   const router = useRouter();
+
   const [values, setValues] = useState<RegisterValues>({
     username: "",
     email: "",
     password: "",
-    confirm: "",
   });
+  const [confirm, setConfirm] = useState("");
+  const [terms, setTerms] = useState(false);
+
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
-
   const submittingRef = useRef(false);
 
-  function setField(name: keyof RegisterValues) {
-    return (value: string) => setValues((prev) => ({ ...prev, [name]: value }));
+  function setField<K extends keyof RegisterValues>(name: K) {
+    return (value: RegisterValues[K]) =>
+      setValues((prev) => ({ ...prev, [name]: value }));
   }
 
   async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
@@ -31,25 +33,30 @@ export function useRegisterForm() {
     if (submittingRef.current) return;
     setFormError(null);
 
-    const results = Object.entries(FIELD_VALIDATOR).map(([key, fn]) =>
-      fn(values[key as keyof RegisterValues], values),
-    );
+    const results = (
+      Object.keys(FIELD_VALIDATOR) as Array<keyof typeof FIELD_VALIDATOR>
+    ).map((key) => {
+      if (key === "confirm") return FIELD_VALIDATOR.confirm(confirm, values);
+      return FIELD_VALIDATOR[key](values[key as keyof RegisterValues]);
+    });
 
     if (results.some((r) => !r.valid)) {
       setFormError("Please fix the highlighted fields.");
       return;
     }
+    if (!terms) {
+      setFormError("Please agree to the Terms of Service and Privacy Policy.");
+      return;
+    }
+
     submittingRef.current = true;
     setSubmitting(true);
-    const controller = new AbortController();
 
     try {
-      const { confirm, ...payload } = values;
       const res = await fetch("/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-        signal: controller.signal,
+        body: JSON.stringify(values),
       });
 
       const data = await res.json().catch(() => null);
@@ -59,14 +66,23 @@ export function useRegisterForm() {
       }
 
       router.push("/login?registered=true");
-    } catch (err) {
-      if ((err as Error).name !== "AbortError")
-        setFormError("A network error occurred. Please check your connection.");
+    } catch {
+      setFormError("A network error occurred. Please check your connection.");
     } finally {
       submittingRef.current = false;
       setSubmitting(false);
     }
   }
 
-  return { values, setField, submitting, formError, handleSubmit };
+  return {
+    values,
+    confirm,
+    terms,
+    setField,
+    setConfirm,
+    setTerms,
+    submitting,
+    formError,
+    handleSubmit,
+  };
 }
