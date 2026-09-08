@@ -2,9 +2,9 @@ import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
 import { pool, isPgError } from "@/lib/db";
 import {
-  PRIZES,
   DAILY_SPIN_LIMIT,
   DAILY_SPIN_LIMIT_ENABLED,
+  selectPrize,
 } from "@/lib/prizes";
 
 export async function POST() {
@@ -46,17 +46,7 @@ export async function POST() {
       [payload.userId, spinsToday + 1],
     );
 
-    const totalWeight = PRIZES.reduce((sum, p) => sum + p.weight, 0);
-    let roll = Math.random() * totalWeight;
-    let winningIndex = 0;
-    for (let i = 0; i < PRIZES.length; i++) {
-      roll -= PRIZES[i].weight;
-      if (roll <= 0) {
-        winningIndex = i;
-        break;
-      }
-    }
-    const prize = PRIZES[winningIndex];
+    const { winningIndex, prize } = selectPrize();
 
     const { rows } = await client.query(
       `insert into spins (user_id, prize_id, prize_label) values ($1, $2, $3)

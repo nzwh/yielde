@@ -25,7 +25,7 @@ const DESKTOP_MAX_SIZE = 440;
 export default function SpinWheel() {
   const size = useResponsiveWheelSize(DESKTOP_MAX_SIZE);
 
-  const { history, spin, releaseLock, fetchHistory } = useSpinWheel();
+  const { history, mode, spin, releaseLock, fetchHistory } = useSpinWheel();
   const [visualState, setVisualState] = useState<VisualState>("idle");
   const [winner, setWinner] = useState<{
     id: string;
@@ -84,7 +84,7 @@ export default function SpinWheel() {
     setAnnouncement(`Result: You won ${result.prize.label}`);
     releaseLock();
     spinPendingRef.current = false;
-    fetchHistory();
+    if (mode === "authenticated") fetchHistory();
 
     if (typeof navigator !== "undefined" && "vibrate" in navigator) {
       navigator.vibrate([40, 60, 80]);
@@ -95,6 +95,7 @@ export default function SpinWheel() {
     spin,
     releaseLock,
     fetchHistory,
+    mode,
     spinTo,
     playSpinSound,
     playWinFanfare,
@@ -173,6 +174,7 @@ export default function SpinWheel() {
         muted={muted}
         onToggleMute={() => setMuted((prev) => !prev)}
         onOpenHistory={() => setIsHistoryOpen(true)}
+        mode={mode}
       />
 
       <RollHistory

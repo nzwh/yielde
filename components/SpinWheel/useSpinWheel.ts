@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { selectPrize } from "@/lib/prizes";
 
 export interface SpinResult {
   winningIndex: number;
@@ -10,6 +11,8 @@ export interface SpinResult {
 export interface SpinError {
   error: string;
 }
+
+export type SpinMode = "loading" | "anonymous" | "authenticated";
 
 export interface SpinRecord {
   id: string;
@@ -32,7 +35,30 @@ async function loadHistory(signal?: AbortSignal): Promise<SpinRecord[] | null> {
 export function useSpinWheel() {
   const [history, setHistory] = useState<SpinRecord[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [mode, setMode] = useState<SpinMode>("loading");
   const spinningRef = useRef(false);
+  const modeRef = useRef<SpinMode>("loading");
+  const modePromiseRef = useRef<Promise<SpinMode> | null>(null);
+
+  const loadMode = useCallback(async () => {
+    if (modePromiseRef.current) return modePromiseRef.current;
+
+    modePromiseRef.current = fetch("/api/session")
+      .then(async (res) => {
+        const data = await res.json().catch(() => null);
+        return res.ok && data?.authenticated
+          ? ("authenticated" as const)
+          : ("anonymous" as const);
+      })
+      .catch(() => "anonymous" as const)
+      .then((nextMode) => {
+        modeRef.current = nextMode;
+        setMode(nextMode);
+        return nextMode;
+      });
+
+    return modePromiseRef.current;
+  }, []);
 
   const fetchHistory = useCallback(async () => {
     const result = await loadHistory();
@@ -40,13 +66,12 @@ export function useSpinWheel() {
   }, []);
 
   useEffect(() => {
-    const controller = new AbortController();
-    (async () => {
-      const result = await loadHistory(controller.signal);
+    void loadMode().then(async (nextMode) => {
+      if (nextMode !== "authenticated") return;
+      const result = await loadHistory();
       if (result) setHistory(result);
-    })();
-    return () => controller.abort();
-  }, []);
+    });
+  }, [loadMode]);
 
   const spin = useCallback(async (): Promise<SpinResult | SpinError | null> => {
     if (spinningRef.current) return null;
@@ -54,6 +79,12 @@ export function useSpinWheel() {
     setErrorMessage(null);
 
     try {
+      const currentMode = await loadMode();
+      if (currentMode === "anonymous") {
+        const { winningIndex, prize } = selectPrize();
+        return { winningIndex, prize };
+      }
+
       const res = await fetch("/api/wheel/spin", { method: "POST" });
       const data = await res.json().catch(() => null);
 
@@ -71,11 +102,18 @@ export function useSpinWheel() {
       spinningRef.current = false;
       return { error: message };
     }
-  }, []);
+  }, [loadMode]);
 
   const releaseLock = useCallback(() => {
     spinningRef.current = false;
   }, []);
 
-  return { history, errorMessage, spin, releaseLock, fetchHistory };
+  return {
+    history,
+    errorMessage,
+    mode,
+    spin,
+    releaseLock,
+    fetchHistory,
+  };
 }

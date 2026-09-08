@@ -4,17 +4,20 @@ import { Badge } from "../global/Badge";
 import { Logo } from "../global/Logo";
 import { LogoutButton } from "../LoginCard/LogoutButton";
 import { cn } from "@/lib/utils";
+import type { SpinMode } from "./useSpinWheel";
 
 interface WheelControlsProps {
   muted: boolean;
   onToggleMute: () => void;
   onOpenHistory: () => void;
+  mode: SpinMode;
 }
 
 export function WheelControls({
   muted,
   onToggleMute,
   onOpenHistory,
+  mode,
 }: WheelControlsProps) {
   return (
     <div className="z-10 flex items-center gap-4 font-semibold text-[#707070]">
@@ -35,16 +38,27 @@ export function WheelControls({
         {muted ? "Sound Off" : "Sound On"}
       </Badge>
 
-      <Badge
-        type="button"
-        onClick={onOpenHistory}
-        className="flex cursor-pointer items-center gap-1.5 text-xs transition hover:text-[#454545] hover:underline"
-        padding="px-1.5 py-0.5"
-      >
-        History
-      </Badge>
-
-      <LogoutButton />
+      {mode === "authenticated" ? (
+        <>
+          <Badge
+            type="button"
+            onClick={onOpenHistory}
+            className="flex cursor-pointer items-center gap-1.5 text-xs transition hover:text-[#454545] hover:underline"
+            padding="px-1.5 py-0.5"
+          >
+            History
+          </Badge>
+          <LogoutButton />
+        </>
+      ) : mode === "anonymous" ? (
+        <Badge
+          href="/login"
+          className="text-xs transition hover:text-[#454545] hover:underline"
+          padding="px-1.5 py-0.5"
+        >
+          Log in to save
+        </Badge>
+      ) : null}
     </div>
   );
 }

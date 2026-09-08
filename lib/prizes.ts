@@ -76,3 +76,18 @@ export const PRIZES: Prize[] = [
 
 export const DAILY_SPIN_LIMIT_ENABLED = true;
 export const DAILY_SPIN_LIMIT = 3;
+
+export function selectPrize() {
+  const totalWeight = PRIZES.reduce((sum, prize) => sum + prize.weight, 0);
+  let roll = Math.random() * totalWeight;
+
+  for (let index = 0; index < PRIZES.length; index++) {
+    roll -= PRIZES[index].weight;
+    if (roll <= 0) {
+      return { winningIndex: index, prize: PRIZES[index] };
+    }
+  }
+
+  const winningIndex = PRIZES.length - 1;
+  return { winningIndex, prize: PRIZES[winningIndex] };
+}
