@@ -23,16 +23,13 @@ export async function POST() {
       [payload.userId],
     );
     const { rows: lockRows } = await client.query(
-      `select spins_today, last_spin_date from spin_locks where user_id = $1 for update`,
+      `select spins_today, (last_spin_date = current_date) as is_today
+       from spin_locks where user_id = $1 for update`,
       [payload.userId],
     );
 
-    const today = new Date().toISOString().slice(0, 10);
     const lock = lockRows[0];
-    const lastSpinDate = lock.last_spin_date
-      ? new Date(lock.last_spin_date).toISOString().slice(0, 10)
-      : null;
-    const spinsToday = lastSpinDate === today ? lock.spins_today : 0;
+    const spinsToday = lock.is_today ? lock.spins_today : 0;
 
     if (DAILY_SPIN_LIMIT_ENABLED && spinsToday >= DAILY_SPIN_LIMIT) {
       await client.query("ROLLBACK");
@@ -45,8 +42,8 @@ export async function POST() {
     }
 
     await client.query(
-      `update spin_locks set spins_today = $2, last_spin_date = $3 where user_id = $1`,
-      [payload.userId, spinsToday + 1, today],
+      `update spin_locks set spins_today = $2, last_spin_date = current_date where user_id = $1`,
+      [payload.userId, spinsToday + 1],
     );
 
     const totalWeight = PRIZES.reduce((sum, p) => sum + p.weight, 0);
