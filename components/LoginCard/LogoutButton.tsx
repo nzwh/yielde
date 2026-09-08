@@ -11,9 +11,10 @@ export function LogoutButton() {
     setLoading(true);
     try {
       await fetch("/api/logout", { method: "POST" });
+    } catch {
+    } finally {
       router.push("/login");
       router.refresh();
-    } finally {
       setLoading(false);
     }
   }
@@ -22,7 +23,7 @@ export function LogoutButton() {
     <button
       onClick={handleLogout}
       disabled={loading}
-      className="text-xs font-medium text-[#737373] underline hover:text-[#454545] disabled:opacity-50"
+      className="flex cursor-pointer items-center gap-1.5 rounded-sm px-1.5 py-0.5 text-xs transition hover:text-[#454545] hover:underline focus-visible:ring-1 focus-visible:ring-[#8290EF] focus-visible:outline-none"
     >
       {loading ? "Logging out..." : "Log out"}
     </button>
