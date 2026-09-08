@@ -25,7 +25,8 @@ const DESKTOP_MAX_SIZE = 440;
 export default function SpinWheel() {
   const size = useResponsiveWheelSize(DESKTOP_MAX_SIZE);
 
-  const { history, mode, spin, releaseLock, fetchHistory } = useSpinWheel();
+  const { history, mode, username, spin, releaseLock, fetchHistory } =
+    useSpinWheel();
   const [visualState, setVisualState] = useState<VisualState>("idle");
   const [winner, setWinner] = useState<{
     id: string;
@@ -129,7 +130,12 @@ export default function SpinWheel() {
       aria-label="Prize Wheel Game"
     >
       <div className="z-10 flex h-12 items-center justify-center text-center text-[#707070]">
-        <WinnerAnnouncement visualState={visualState} winner={winner} />
+        <WinnerAnnouncement
+          visualState={visualState}
+          winner={winner}
+          hasUser={mode === "authenticated" && Boolean(username)}
+          username={username}
+        />
       </div>
       <div className="sr-only" aria-live="polite" role="status">
         {announcement}

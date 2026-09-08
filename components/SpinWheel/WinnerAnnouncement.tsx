@@ -14,11 +14,15 @@ interface Winner {
 interface WinnerAnnouncementProps {
   visualState: VisualState;
   winner: Winner | null;
+  hasUser?: boolean;
+  username?: string | null;
 }
 
 export function WinnerAnnouncement({
   visualState,
   winner,
+  hasUser = false,
+  username = null,
 }: WinnerAnnouncementProps) {
   if (winner && visualState === "celebrating") {
     if (winner.id === "again") {
@@ -57,7 +61,13 @@ export function WinnerAnnouncement({
       elastic
     >
       <p>
-        Press<Badge>Space</Badge>or<Badge>Tap the Wheel</Badge>to Spin
+        {hasUser && (
+          <>
+            Hey,<Badge>{username}</Badge>
+            &nbsp;
+          </>
+        )}
+        &nbsp; Press<Badge>Space</Badge>or<Badge>Tap the Wheel</Badge>to spin
       </p>
     </FadeIn>
   );

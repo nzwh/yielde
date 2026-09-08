@@ -14,6 +14,11 @@ export interface SpinError {
 
 export type SpinMode = "loading" | "anonymous" | "authenticated";
 
+interface SessionInfo {
+  mode: Exclude<SpinMode, "loading">;
+  username: string | null;
+}
+
 export interface SpinRecord {
   id: string;
   prize_id: string;
@@ -36,28 +41,32 @@ export function useSpinWheel() {
   const [history, setHistory] = useState<SpinRecord[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [mode, setMode] = useState<SpinMode>("loading");
+  const [username, setUsername] = useState<string | null>(null);
   const spinningRef = useRef(false);
-  const modeRef = useRef<SpinMode>("loading");
-  const modePromiseRef = useRef<Promise<SpinMode> | null>(null);
+  const sessionPromiseRef = useRef<Promise<SessionInfo> | null>(null);
 
   const loadMode = useCallback(async () => {
-    if (modePromiseRef.current) return modePromiseRef.current;
+    if (sessionPromiseRef.current) return sessionPromiseRef.current;
 
-    modePromiseRef.current = fetch("/api/session")
+    sessionPromiseRef.current = fetch("/api/session")
       .then(async (res) => {
         const data = await res.json().catch(() => null);
-        return res.ok && data?.authenticated
-          ? ("authenticated" as const)
-          : ("anonymous" as const);
+        return {
+          mode:
+            res.ok && data?.authenticated
+              ? ("authenticated" as const)
+              : ("anonymous" as const),
+          username: typeof data?.username === "string" ? data.username : null,
+        };
       })
-      .catch(() => "anonymous" as const)
-      .then((nextMode) => {
-        modeRef.current = nextMode;
-        setMode(nextMode);
-        return nextMode;
+      .catch(() => ({ mode: "anonymous" as const, username: null }))
+      .then((session) => {
+        setMode(session.mode);
+        setUsername(session.username);
+        return session;
       });
 
-    return modePromiseRef.current;
+    return sessionPromiseRef.current;
   }, []);
 
   const fetchHistory = useCallback(async () => {
@@ -66,8 +75,8 @@ export function useSpinWheel() {
   }, []);
 
   useEffect(() => {
-    void loadMode().then(async (nextMode) => {
-      if (nextMode !== "authenticated") return;
+    void loadMode().then(async (session) => {
+      if (session.mode !== "authenticated") return;
       const result = await loadHistory();
       if (result) setHistory(result);
     });
@@ -79,8 +88,8 @@ export function useSpinWheel() {
     setErrorMessage(null);
 
     try {
-      const currentMode = await loadMode();
-      if (currentMode === "anonymous") {
+      const session = await loadMode();
+      if (session.mode === "anonymous") {
         const { winningIndex, prize } = selectPrize();
         return { winningIndex, prize };
       }
@@ -112,6 +121,7 @@ export function useSpinWheel() {
     history,
     errorMessage,
     mode,
+    username,
     spin,
     releaseLock,
     fetchHistory,
