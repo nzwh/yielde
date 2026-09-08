@@ -9,11 +9,12 @@ export function isPgError(
 ): e is { code: string; constraint?: string } {
   return typeof e === "object" && e !== null && "code" in e;
 }
+
 export const pool =
   global.pgPool ??
   new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false },
+    ssl: { rejectUnauthorized: true },
   });
 
 if (process.env.NODE_ENV !== "production") global.pgPool = pool;
