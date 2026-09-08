@@ -177,7 +177,7 @@ function WheelGeometryImpl({
       ref={innerRef}
       onClick={isInteractive ? onClick : undefined}
       style={{ width: size, height: size }}
-      className={`relative rounded-full will-change-transform select-none ${
+      className={`relative rounded-full shadow-[0_0_64px_rgba(0,0,0,0.1)] will-change-transform select-none ${
         isInteractive
           ? "cursor-pointer transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]"
           : "cursor-not-allowed"
@@ -192,7 +192,7 @@ function WheelGeometryImpl({
         width={size}
         height={size}
         viewBox={`0 0 ${size} ${size}`}
-        className="absolute inset-0 overflow-visible rounded-full border border-[#D9D9D9] bg-[#f0f0f0] p-1 shadow-[0_0_30px_rgba(0,0,0,0.05),inset_0_0_0_4px_#fff]"
+        className="absolute inset-0 rounded-full border border-[#D9D9D9] bg-[#f0f0f0] p-1 shadow-[inset_0_0_0_4px_#fff]"
         style={{ shapeRendering: "geometricPrecision" }}
         aria-hidden="true"
       >
