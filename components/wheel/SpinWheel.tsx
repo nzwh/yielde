@@ -39,10 +39,11 @@ export default function SpinWheel() {
 
   const { wheelRef, spinTo } = useSpinAnimation(sliceAngle);
   const playSpinSound = useSpinSound(muted);
-  const playWinFanfare = useWinSound(muted);
+  const { unlock: unlockWinSound, play: playWinFanfare } = useWinSound(muted);
 
   const handleSpin = useCallback(async () => {
     if (visualState === "spinning") return;
+    unlockWinSound();
 
     setWinner(null);
     setAnnouncement("Wheel is spinning...");
@@ -76,6 +77,7 @@ export default function SpinWheel() {
     spinTo,
     playSpinSound,
     playWinFanfare,
+    unlockWinSound,
   ]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
