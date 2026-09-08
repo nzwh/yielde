@@ -1,12 +1,11 @@
 import { useRef, useState, type SubmitEvent } from "react";
-import { FIELD_VALIDATOR } from "./validator";
+import {
+  FIELD_VALIDATOR,
+  type RegisterValues,
+} from "@/lib/validation/register";
 import { useRouter } from "next/navigation";
 
-export type RegisterValues = {
-  username: string;
-  email: string;
-  password: string;
-};
+export type { RegisterValues } from "@/lib/validation/register";
 
 export function useRegisterForm() {
   const router = useRouter();
@@ -58,7 +57,7 @@ export function useRegisterForm() {
       const res = await fetch("/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ ...values, terms }),
       });
 
       const data = await res.json().catch(() => null);

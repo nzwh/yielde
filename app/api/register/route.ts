@@ -1,13 +1,24 @@
 import bcrypt from "bcrypt";
 import { isPgError, pool } from "@/lib/db";
-import { FIELD_VALIDATOR } from "@/components/RegisterCard/validator";
+import { FIELD_VALIDATOR } from "@/lib/validation/register";
 
 export async function POST(req: Request) {
   const body = await req.json().catch(() => null);
   if (!body)
     return Response.json({ message: "Invalid request body." }, { status: 400 });
 
-  const { username, email, password } = body;
+  const { username, email, password, terms } = body;
+  if (
+    typeof username !== "string" ||
+    typeof email !== "string" ||
+    typeof password !== "string" ||
+    terms !== true
+  ) {
+    return Response.json(
+      { message: "Username, email, password, and terms acceptance are required." },
+      { status: 400 },
+    );
+  }
   const fields = { username, email, password };
 
   for (const [key, validate] of Object.entries(FIELD_VALIDATOR)) {
