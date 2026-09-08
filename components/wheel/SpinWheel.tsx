@@ -34,6 +34,8 @@ export default function SpinWheel() {
   const [announcement, setAnnouncement] = useState("");
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
+  const [visibleError, setVisibleError] = useState<string | null>(null);
+
   const count = PRIZES.length;
   const sliceAngle = 360 / count;
 
@@ -46,11 +48,14 @@ export default function SpinWheel() {
     unlockWinSound();
 
     setWinner(null);
+    setVisibleError(null);
     setAnnouncement("Wheel is spinning...");
 
     const result = await spin();
     if (!result || "error" in result) {
-      setAnnouncement(result?.error ?? "Failed to spin. Please try again.");
+      const message = result?.error ?? "Failed to spin. Please try again.";
+      setAnnouncement(message);
+      setVisibleError(message);
       return;
     }
 
@@ -132,6 +137,12 @@ export default function SpinWheel() {
           isSpinning={visualState === "spinning"}
         />
       </div>
+
+      {visibleError && (
+        <p role="alert" className="z-10 text-xs font-medium text-red-500">
+          {visibleError}
+        </p>
+      )}
 
       <WheelControls
         muted={muted}
