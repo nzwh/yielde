@@ -14,7 +14,10 @@ export const pool =
   global.pgPool ??
   new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: true },
+    ssl: {
+      rejectUnauthorized: true,
+      ca: process.env.SUPABASE_CA_CERT,
+    },
   });
 
 if (process.env.NODE_ENV !== "production") global.pgPool = pool;
