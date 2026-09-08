@@ -132,6 +132,9 @@ export function Input({
           onChange={handleChange}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          onCopy={isPassword ? (e) => e.preventDefault() : undefined}
+          onCut={isPassword ? (e) => e.preventDefault() : undefined}
+          onDragStart={isPassword ? (e) => e.preventDefault() : undefined}
           required={required}
           aria-invalid={showStatus ? !result.valid : undefined}
           aria-describedby={showError ? `${id}-error` : undefined}
