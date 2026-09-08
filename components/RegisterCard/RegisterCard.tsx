@@ -41,19 +41,19 @@ export default function RegisterCard() {
 
   return (
     <div className="flex w-full flex-col items-center rounded-xl bg-[#E8E8E8]">
-      {/* Top lip */}
+      {/* top lip */}
       <div
         className={cn(
           "text-[#737373]",
-          "flex w-full items-center justify-between p-4 text-xs font-medium uppercase",
+          "flex w-full items-center justify-between p-4 pb-3 font-medium uppercase",
           dmMono.className,
         )}
       >
-        <h2>Registration</h2>
+        <h2 className="text-xxs">Registration</h2>
         <Logo className="h-4 w-auto text-[#798BFF]" />
       </div>
 
-      {/* Form */}
+      {/* form */}
       <form
         className={cn(
           "border-[#D9D9D9] bg-[#F7F7F7]",
@@ -150,7 +150,7 @@ export default function RegisterCard() {
           autoComplete="new-password"
         />
 
-        {/* Error */}
+        {/* error */}
         {formError && (
           <p
             key={errorShakeId}
@@ -162,14 +162,14 @@ export default function RegisterCard() {
           </p>
         )}
 
-        {/* Submit */}
+        {/* submit */}
         <Button
           submitting={submitting}
           setIsHovered={setIsButtonHovered}
           isHovered={isButtonHovered}
         />
 
-        {/* T&C */}
+        {/* t&c */}
         <div className="text-xxs flex items-center justify-center gap-2 text-[#737373]">
           <Checkbox
             id="terms"
@@ -190,7 +190,7 @@ export default function RegisterCard() {
         </div>
       </form>
 
-      {/* Bottom lip */}
+      {/* bottom lip */}
       <p className="px-4 py-3 text-xs text-[#737373]">
         Already have an account?
         <Badge href="/login" aria-label="Login to your account">

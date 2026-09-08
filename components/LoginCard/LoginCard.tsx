@@ -25,11 +25,11 @@ export default function LoginCard() {
 
   return (
     <div className="flex w-full flex-col items-center rounded-xl bg-[#E8E8E8]">
-      {/* Top lip */}
+      {/* top lip */}
       <div
         className={cn(
           "text-[#737373]",
-          "flex w-full items-center justify-between p-4 text-xs font-medium uppercase",
+          "flex w-full items-center justify-between p-4 pb-3 text-xs font-medium uppercase",
           dmMono.className,
         )}
       >
@@ -37,7 +37,7 @@ export default function LoginCard() {
         <Logo className="h-4 w-auto text-[#798BFF]" />
       </div>
 
-      {/* Form */}
+      {/* form */}
       <form
         className={cn(
           "border-[#D9D9D9] bg-[#F7F7F7]",
@@ -61,16 +61,6 @@ export default function LoginCard() {
         >
           Welcome back.
         </h1>
-
-        {justRegistered && (
-          <p
-            role="status"
-            aria-live="polite"
-            className="text-center text-xs font-medium text-[#42DD61]"
-          >
-            Account created! Please log in.
-          </p>
-        )}
 
         <Input
           id="email"
@@ -96,7 +86,17 @@ export default function LoginCard() {
           autoComplete="current-password"
         />
 
-        {/* Error */}
+        {justRegistered && (
+          <p
+            role="status"
+            aria-live="polite"
+            className="text-center text-xs font-medium text-[#42DD61]"
+          >
+            Account created! Please log in.
+          </p>
+        )}
+
+        {/* error */}
         {formError && (
           <p
             key={errorShakeId}
@@ -108,7 +108,7 @@ export default function LoginCard() {
           </p>
         )}
 
-        {/* Submit */}
+        {/* submit */}
         <Button
           submitting={submitting}
           setIsHovered={setIsButtonHovered}
@@ -118,7 +118,7 @@ export default function LoginCard() {
         />
       </form>
 
-      {/* Bottom lip */}
+      {/* bottom lip */}
       <p className="px-4 py-3 text-xs text-[#737373]">
         Don&apos;t have an account?
         <Badge href="/register" aria-label="Create an account">

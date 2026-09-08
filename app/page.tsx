@@ -1,4 +1,4 @@
-import SpinWheel from "@/components/wheel/SpinWheel";
+import SpinWheel from "@/components/SpinWheel/SpinWheel";
 
 export default function Home() {
   return (
