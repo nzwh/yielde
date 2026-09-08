@@ -321,7 +321,7 @@ function WheelGeometryImpl({
                   }}
                   className="opacity-100 [&>svg]:text-[#C4CCFF]"
                 >
-                  <Icon className="h-6 w-6 text-white" />
+                  <Icon className="size-6 text-white" />
                 </div>
               </foreignObject>
             </g>

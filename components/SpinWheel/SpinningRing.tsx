@@ -2,7 +2,7 @@ export function SpinningRing() {
   return (
     <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
       <svg
-        className="h-200 w-200 animate-spin [animation-duration:32s] [animation-timing-function:linear] motion-reduce:animate-none"
+        className="size-180 animate-spin [animation-duration:32s] [animation-timing-function:linear] motion-reduce:animate-none"
         aria-hidden="true"
         viewBox="6 8 126 128"
         fill="none"

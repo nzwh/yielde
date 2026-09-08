@@ -41,7 +41,7 @@ export function Indicator({
       {Array.from({ length: total }, (_, i) => (
         <div
           key={i}
-          className="h-1 w-1 rounded-full transition-colors duration-200 ease-in-out"
+          className="size-1 rounded-full transition-colors duration-200 ease-in-out"
           style={{ backgroundColor: filled.has(i) ? primary : secondary }}
         />
       ))}

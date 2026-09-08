@@ -67,7 +67,7 @@ export function WheelHub({ onSpin, isInteractive, isSpinning }: WheelHubProps) {
         <div
           className={cn(
             dmMono.className,
-            "flex h-full w-full items-center justify-center rounded-full bg-radial-[at_50%_100%] from-[#EEEEEE] to-[#999999] text-[#485CE0]",
+            "flex size-full items-center justify-center rounded-full bg-radial-[at_50%_100%] from-[#EEEEEE] to-[#999999] text-[#485CE0]",
           )}
         >
           {isSpinning ? (
