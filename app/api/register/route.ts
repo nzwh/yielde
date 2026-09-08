@@ -15,7 +15,10 @@ export async function POST(req: Request) {
     terms !== true
   ) {
     return Response.json(
-      { message: "Username, email, password, and terms acceptance are required." },
+      {
+        message:
+          "Username, email, password, and terms acceptance are required.",
+      },
       { status: 400 },
     );
   }
