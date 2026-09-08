@@ -2,7 +2,7 @@ import SpinWheel from "@/components/wheel/SpinWheel";
 
 export default function Home() {
   return (
-    <main className="flex h-dvh max-w-screen items-center justify-center overflow-hidden bg-white">
+    <main className="flex min-h-dvh max-w-screen items-center justify-center overflow-y-auto bg-white p-4">
       <SpinWheel />
     </main>
   );

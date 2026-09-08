@@ -40,7 +40,7 @@ export default function RegisterCard() {
   const showMeter = isPasswordFocused && values.password.length > 0;
 
   return (
-    <div className="flex w-88 flex-col items-center rounded-xl bg-[#E8E8E8]">
+    <div className="flex w-full flex-col items-center rounded-xl bg-[#E8E8E8]">
       {/* Top lip */}
       <div
         className={cn(
