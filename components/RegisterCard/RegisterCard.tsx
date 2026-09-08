@@ -64,7 +64,7 @@ export default function RegisterCard() {
           setErrorShakeId((prev) => prev + 1);
           await handleSubmit(e);
         }}
-        autoComplete="off"
+        autoComplete="on"
         autoCorrect="off"
         spellCheck="false"
         noValidate
@@ -88,6 +88,7 @@ export default function RegisterCard() {
           value={values.username}
           onChange={setField("username")}
           validate={FIELD_VALIDATOR.username}
+          autoComplete="username"
         />
 
         <Input
@@ -100,6 +101,7 @@ export default function RegisterCard() {
           value={values.email}
           onChange={setField("email")}
           validate={FIELD_VALIDATOR.email}
+          autoComplete="email"
         />
 
         <div className={cn("flex w-full flex-col", showMeter && "gap-2")}>
@@ -114,6 +116,7 @@ export default function RegisterCard() {
             onChange={setField("password")}
             validate={FIELD_VALIDATOR.password}
             onFocusChange={setIsPasswordFocused}
+            autoComplete="new-password"
           />
           <div
             className={cn(

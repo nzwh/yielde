@@ -48,7 +48,7 @@ export default function LoginCard() {
           setErrorShakeId((prev) => prev + 1);
           await handleSubmit(e);
         }}
-        autoComplete="off"
+        autoComplete="on"
         autoCorrect="off"
         spellCheck="false"
         noValidate
@@ -81,6 +81,7 @@ export default function LoginCard() {
           icon={MdMailOutline}
           value={values.email}
           onChange={setField("email")}
+          autoComplete="email"
         />
 
         <Input
@@ -92,6 +93,7 @@ export default function LoginCard() {
           icon={MdOutlineVpnKey}
           value={values.password}
           onChange={setField("password")}
+          autoComplete="current-password"
         />
 
         {/* Error */}

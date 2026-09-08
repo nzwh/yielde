@@ -5,7 +5,14 @@ import { cookies } from "next/headers";
 
 export async function POST(req: Request) {
   const body = await req.json().catch(() => null);
-  if (!body?.email || !body?.password) {
+  if (
+    typeof body?.email !== "string" ||
+    typeof body?.password !== "string" ||
+    body.email.length > 254 ||
+    body.password.length > 128 ||
+    !body.email ||
+    !body.password
+  ) {
     return Response.json(
       { message: "Email and password are required." },
       { status: 400 },
