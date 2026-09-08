@@ -7,6 +7,7 @@ interface FadeInProps {
   duration?: number;
   elastic?: boolean;
   className?: string;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
 export function FadeIn({
@@ -16,6 +17,7 @@ export function FadeIn({
   duration = 500,
   elastic = false,
   className,
+  onClick,
 }: FadeInProps) {
   const distance = direction === "none" ? "0" : "12px";
   const transform = {
@@ -39,6 +41,7 @@ export function FadeIn({
             : "ease-out",
         } as React.CSSProperties
       }
+      onClick={onClick}
     >
       {children}
     </div>
