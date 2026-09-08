@@ -30,8 +30,12 @@ export function Button({
       type="submit"
       disabled={submitting}
       aria-busy={submitting}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => {
+        if (window.matchMedia("(hover: hover)").matches) setIsHovered(true);
+      }}
+      onMouseLeave={() => {
+        if (window.matchMedia("(hover: hover)").matches) setIsHovered(false);
+      }}
       className={cn(
         "border-[#8290EF] text-white focus:ring-[#3B4ACF]",
         "flex w-full cursor-pointer flex-row items-center justify-center gap-3 rounded-full border py-2",
