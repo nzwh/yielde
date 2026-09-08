@@ -2,7 +2,7 @@
 
 import { useRef, useCallback, useEffect } from "react";
 
-export function useWinSound(muted: boolean, speed = 1.0, volume = 0.8) {
+export function useWinSound(muted: boolean, speed = 1.0, volume = 0.4) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const unlockedRef = useRef(false);
   const disposedRef = useRef(false);

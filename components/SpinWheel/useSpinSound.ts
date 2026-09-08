@@ -2,7 +2,7 @@
 
 import { useRef, useCallback, useEffect } from "react";
 
-export function useSpinSound(muted: boolean, speed = 2.5, volume = 0.6) {
+export function useSpinSound(muted: boolean, speed = 2.5, volume = 0.4) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
