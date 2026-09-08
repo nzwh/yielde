@@ -11,6 +11,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://yielde.vercel.app"),
+
   title: {
     default: "Yielde • Spin & Win Vouchers",
     template: "%s • Yielde",
@@ -34,7 +36,14 @@ export const metadata: Metadata = {
     description:
       "Spin the prize wheel to win exclusive vouchers, discounts, and rewards.",
     type: "website",
-    images: ["/og-image.png"],
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Yielde • Spin & Win Vouchers",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
