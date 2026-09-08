@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import { Fireworks } from "../global/Fireworks";
 
 import { PRIZES } from "./prizes";
@@ -37,6 +37,7 @@ export default function SpinWheel() {
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
   const [visibleError, setVisibleError] = useState<string | null>(null);
+  const spinPendingRef = useRef(false);
 
   const count = PRIZES.length;
   const sliceAngle = 360 / count;
@@ -46,7 +47,9 @@ export default function SpinWheel() {
   const { unlock: unlockWinSound, play: playWinFanfare } = useWinSound(muted);
 
   const handleSpin = useCallback(async () => {
-    if (visualState === "spinning") return;
+    if (visualState === "spinning" || spinPendingRef.current) return;
+    spinPendingRef.current = true;
+    setVisualState("spinning");
     unlockWinSound();
 
     setWinner(null);
@@ -58,10 +61,11 @@ export default function SpinWheel() {
       const message = result?.error ?? "Failed to spin. Please try again.";
       setAnnouncement(message);
       setVisibleError(message);
+      setVisualState("idle");
+      spinPendingRef.current = false;
       return;
     }
 
-    setVisualState("spinning");
     playSpinSound();
 
     await spinTo(result.winningIndex);
