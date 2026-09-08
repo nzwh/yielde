@@ -146,6 +146,7 @@ export default function RegisterCard() {
           onChange={setConfirm}
           validate={FIELD_VALIDATOR.confirm}
           allValues={values}
+          validationTrigger={values.password}
           autoComplete="new-password"
         />
 

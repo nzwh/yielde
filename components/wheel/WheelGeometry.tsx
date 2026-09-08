@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import type { Prize } from "./prizes";
+import type { Prize } from "@/lib/prizes";
 
 interface WheelGeometryProps {
   prizes: Prize[];

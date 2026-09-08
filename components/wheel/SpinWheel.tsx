@@ -3,7 +3,7 @@
 import React, { useState, useCallback, useRef } from "react";
 import { Fireworks } from "../global/Fireworks";
 
-import { PRIZES } from "./prizes";
+import { PRIZES } from "@/lib/prizes";
 import { WheelGeometry } from "./WheelGeometry";
 import { WheelHub } from "./WheelHub";
 import { WheelControls } from "./WheelControls";

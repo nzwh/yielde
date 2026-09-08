@@ -5,7 +5,7 @@ import {
   PRIZES,
   DAILY_SPIN_LIMIT,
   DAILY_SPIN_LIMIT_ENABLED,
-} from "@/components/wheel/prizes";
+} from "@/lib/prizes";
 
 export async function POST() {
   const token = (await cookies()).get("session")?.value;

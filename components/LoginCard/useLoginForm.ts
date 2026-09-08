@@ -32,14 +32,12 @@ export function useLoginForm() {
 
     submittingRef.current = true;
     setSubmitting(true);
-    const controller = new AbortController();
 
     try {
       const res = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
-        signal: controller.signal,
       });
 
       const data = await res.json().catch(() => null);
