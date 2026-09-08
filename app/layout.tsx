@@ -12,11 +12,16 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "Giftaway | Spin & Win Vouchers",
-    template: "%s | Giftaway",
+    default: "Yielde • Spin & Win Vouchers",
+    template: "%s • Yielde",
   },
   description:
     "Spin the prize wheel to win exclusive vouchers, discounts, and rewards.",
+  appleWebApp: {
+    title: "Yielde",
+    capable: true,
+    statusBarStyle: "default",
+  },
   robots: {
     index: true,
     follow: true,
@@ -25,7 +30,7 @@ export const metadata: Metadata = {
     icon: "/favicon.ico",
   },
   openGraph: {
-    title: "Giftaway | Spin & Win Vouchers",
+    title: "Yielde • Spin & Win Vouchers",
     description:
       "Spin the prize wheel to win exclusive vouchers, discounts, and rewards.",
     type: "website",
@@ -33,7 +38,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Giftaway | Spin & Win Vouchers",
+    title: "Yielde • Spin & Win Vouchers",
     description:
       "Spin the prize wheel to win exclusive vouchers, discounts, and rewards.",
     images: ["/og-image.png"],
