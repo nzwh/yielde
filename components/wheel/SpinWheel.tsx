@@ -17,6 +17,8 @@ import { useResponsiveWheelSize } from "./useResponsiveWheelSize";
 import { useSpinAnimation } from "./useSpinAnimation";
 import { useWinSound } from "./useWinSound";
 
+import { cn } from "@/lib/utils";
+
 type VisualState = "idle" | "spinning" | "celebrating";
 const DESKTOP_MAX_SIZE = 440;
 
@@ -138,11 +140,20 @@ export default function SpinWheel() {
         />
       </div>
 
-      {visibleError && (
-        <p role="alert" className="z-10 text-xs font-medium text-red-500">
-          {visibleError}
-        </p>
-      )}
+      <div
+        className={cn(
+          "z-10 grid transition-all duration-200 ease-out",
+          visibleError
+            ? "grid-rows-[1fr] opacity-100"
+            : "grid-rows-[0fr] opacity-0",
+        )}
+      >
+        <div className="overflow-hidden">
+          <p role="alert" className="py-1 text-xs font-medium text-red-500">
+            {visibleError}
+          </p>
+        </div>
+      </div>
 
       <WheelControls
         muted={muted}
