@@ -57,7 +57,7 @@ export function WinnerAnnouncement({
       elastic
     >
       <p>
-        Press<Badge>Space</Badge>or<Badge>Tap</Badge>the to Spin
+        Press<Badge>Space</Badge>or<Badge>Tap the Wheel</Badge>to Spin
       </p>
     </FadeIn>
   );
