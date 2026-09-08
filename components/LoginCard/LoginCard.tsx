@@ -12,6 +12,7 @@ import { useLoginForm } from "./useLoginForm";
 import { Input } from "@/components/global/Input";
 import { Button } from "@/components/global/Button";
 import { Badge } from "@/components/global/Badge";
+import { Logo } from "../global/Logo";
 
 export default function LoginCard() {
   const { values, submitting, formError, setField, handleSubmit } =
@@ -28,11 +29,12 @@ export default function LoginCard() {
       <div
         className={cn(
           "text-[#737373]",
-          "flex w-full items-center justify-between px-4 py-3 text-[0.625rem] font-medium uppercase",
+          "flex w-full items-center justify-between p-4 text-xs font-medium uppercase",
           dmMono.className,
         )}
       >
         <h2>Log In</h2>
+        <Logo className="h-4 w-auto text-[#798BFF]" />
       </div>
 
       {/* Form */}

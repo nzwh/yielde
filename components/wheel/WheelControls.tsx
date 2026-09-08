@@ -1,6 +1,7 @@
 "use client";
 
 import { Badge } from "../global/Badge";
+import { Logo } from "../global/Logo";
 import { LogoutButton } from "../LoginCard/LogoutButton";
 import { cn } from "@/lib/utils";
 
@@ -17,6 +18,10 @@ export function WheelControls({
 }: WheelControlsProps) {
   return (
     <div className="z-10 flex items-center gap-4 font-semibold text-[#707070]">
+      <Logo className="h-6 w-auto text-[#798BFF]" />
+
+      <div className="h-3 w-px rounded-full bg-[#D9D9D9]" />
+
       <Badge
         type="button"
         onClick={onToggleMute}

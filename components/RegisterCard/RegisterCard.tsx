@@ -18,6 +18,7 @@ import { Button } from "@/components/global/Button";
 import { Badge } from "@/components/global/Badge";
 import { Checkbox } from "../global/Checkbox";
 import { PasswordStrengthMeter } from "./PasswordStrengthMeter";
+import { Logo } from "../global/Logo";
 
 export default function RegisterCard() {
   const {
@@ -44,11 +45,12 @@ export default function RegisterCard() {
       <div
         className={cn(
           "text-[#737373]",
-          "flex w-full items-center justify-between px-4 py-3 text-[0.625rem] font-medium uppercase",
+          "flex w-full items-center justify-between p-4 text-xs font-medium uppercase",
           dmMono.className,
         )}
       >
         <h2>Registration</h2>
+        <Logo className="h-4 w-auto text-[#798BFF]" />
       </div>
 
       {/* Form */}
