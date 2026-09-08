@@ -68,12 +68,22 @@ export default function SpinWheel() {
 
     playSpinSound();
 
-    await spinTo(result.winningIndex);
+    const animationCompleted = await spinTo(result.winningIndex);
+    if (!animationCompleted) {
+      const message = "The wheel could not finish spinning. Please try again.";
+      setAnnouncement(message);
+      setVisibleError(message);
+      setVisualState("idle");
+      releaseLock();
+      spinPendingRef.current = false;
+      return;
+    }
 
     setWinner(result.prize);
     setVisualState("celebrating");
     setAnnouncement(`Result: You won ${result.prize.label}`);
     releaseLock();
+    spinPendingRef.current = false;
     fetchHistory();
 
     if (typeof navigator !== "undefined" && "vibrate" in navigator) {

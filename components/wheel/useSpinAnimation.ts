@@ -37,12 +37,15 @@ export function useSpinAnimation(sliceAngle: number) {
         },
       );
 
+      if (!animation) return false;
+
       try {
         await animation?.finished;
       } catch {
-        return;
+        return false;
       }
       accumulatedRotationRef.current = finalRotation;
+      return true;
     },
     [sliceAngle],
   );
