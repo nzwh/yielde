@@ -1,9 +1,16 @@
 "use client";
 
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useEffect } from "react";
 
 export function useSpinSound(muted: boolean, speed = 2.5, volume = 0.6) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    return () => {
+      audioRef.current?.pause();
+      if (audioRef.current) audioRef.current.currentTime = 0;
+    };
+  }, []);
 
   return useCallback(() => {
     if (muted) return;
